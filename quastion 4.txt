@@ -1,0 +1,132 @@
+
+                            1. Making HTTP POST Request
+
+To make a POST request, we would need the axios package. So follow the steps below
+
+Step 1 – Install the axios package using the command
+
+
+    npm install axios --save
+ 
+
+Step 2 – Create the PostList component. This would be used to display the list of posts. It would be a class component.
+
+Step 3 – Add the import statement to import axios to this component
+
+
+   import axios from 'axios'
+ 
+
+Step 4 – Add the constructor. Then add a state variable: postList. Initialize it to empty list
+
+Step 5 – You now need to write the code for the API call in the componentDidMount() lifecycle method. The code is given below:
+
+ 
+componentDidMount(){
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+    .then(response => {
+        this.setState({postList: response.data})
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
+ 
+
+Step 6 – In the render method, write the code to map over the postList and display the title and body of the posts. I’m placing the complete render() method below.
+
+ 
+
+render() {
+    const {postList} = this.state
+    return (
+        <div>
+            {
+                postsList.length ?
+                postList.map(post => <div key={post.id}>{post.title}</div>)
+                :
+                null
+            }
+        </div>
+    )
+}
+
+
+Note: We destructure the postList and we also check if the returned list is empty
+
+At this point, you can test the application. You’ll see a list of post displayed.
+
+ 
+
+2. Making a POST Request
+
+We would create a form with three fields: userId, title and body. These would be wrapped in a <form> tag with a submit button. Follow the steps below:
+
+Step 1 – Create the PostForm component and import the axios package. This would be a class component
+
+Step 2 – Add the constructor and add the three states initialized to empty string.
+
+Step 3 – In the render method, create the form with the three input fields. To make it easier for you, I’m providing the complete render method below:
+
+
+
+render() {
+    const {userId, title, body} = this.state
+    return (
+        <div>
+            <form onSubmit={this.submitHandler}>
+            <div>
+                <input 
+                type='text' 
+                name ='userId' 
+                onChange={this.changeHandler}
+                value={userId}></input>
+            </div>
+            <div>
+                <input 
+                type='text' 
+                name ='title' 
+                    onChange={this.changeHandler}
+                value={title}></input>
+            </div>
+            <div>
+                <input 
+                type='text' 
+                name ='body' 
+                onChange={this.changeHandler}
+                value={body}></input>
+            </div>
+            <button type='submit'>Submit Now</button>
+            </form>
+        </div>
+    )
+}
+
+Note: Feel free to add labels to the input fields
+
+Step 4 – Add the changeHandler method to handle when the text input changes
+
+
+changeHandler=(e)  =>{
+    this.setState({
+        [e.target.name]: e.target.value
+    })
+}
+
+
+Note that we are using the same changeHandler for all the inputs. However, the name and value would vary depending on the input
+
+Step 5 – Add the submitHandler to submit the form.
+
+
+submitHandler = (e) => {
+    e.preventDefault()
+    axios.post('https://jsonplaceholder.typicode.com/posts', this.state)
+    .then(response => {
+        console.log(response)
+    })
+}
+ 
+
+Step 6 – Add the PostForm to the App component and test the application. You will see the form displayed result:
+
